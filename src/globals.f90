@@ -21,5 +21,8 @@ module globals
     character(128), save :: ifile
     character(128), save :: ofile
 
+    ! Temporary array to read namelist
+    real(kp), save :: pressure(100)
+
 end module globals
 
