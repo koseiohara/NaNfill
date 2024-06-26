@@ -1,0 +1,13 @@
+#.gitignore
+*.swp
+*.o
+*.mod
+*__genmod.f90
+EXE
+#output/
+*.grd
+*.bin
+*.dat
+__pycache__
+*~
+
