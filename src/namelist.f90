@@ -4,15 +4,14 @@ module namelist
     use globals, only : kp, ny, nz, &
                       & latdelta, pres, yrev, zrev, &
                       & VARS, REC_INI, nt, &
-                      & ifile, ofile
+                      & ifile, ofile, &
+                      & pressure
 
     implicit none
 
     private
     public :: read_nml
 
-    
-    real(kp) :: pressure(100)
 
     contains
 
@@ -21,7 +20,7 @@ module namelist
         integer :: input
         character(128), parameter :: nml_file='../nml/input.nml'
 
-        namelist / grid / nx, ny, nz
+        namelist / grid / ny, nz
         namelist / coordinate / latdelta, pressure, yrev, zrev
         namelist / record / VARS, REC_INI, nt
         namelist / files / ifile, ofile
@@ -53,8 +52,8 @@ module namelist
 
         call checker()
 
-        allocate(pres(nz))
-        pres(1:nz) = pressure(1:nz)
+        !allocate(pres(nz))
+        !pres(1:nz) = pressure(1:nz)
 
     end subroutine read_nml
 
@@ -83,12 +82,12 @@ module namelist
 
     subroutine checker()
 
-        if (nx <= 0) then
-            write(*,'(a)')    'Value Error ---------------------------------------------'
-            write(*,'(a,i0)') '|   nx must be 1 or more, but input is ', nx
-            write(*,'(a)')    '---------------------------------------------------------'
-            error stop
-        endif
+        !if (nx <= 0) then
+        !    write(*,'(a)')    'Value Error ---------------------------------------------'
+        !    write(*,'(a,i0)') '|   nx must be 1 or more, but input is ', nx
+        !    write(*,'(a)')    '---------------------------------------------------------'
+        !    error stop
+        !endif
 
         if (ny <= 0) then
             write(*,'(a)')    'Value Error ---------------------------------------------'
@@ -100,6 +99,13 @@ module namelist
         if (nz <= 0) then
             write(*,'(a)')    'Value Error ---------------------------------------------'
             write(*,'(a,i0)') '|   nz must be 1 or more, but input is ', nz
+            write(*,'(a)')    '---------------------------------------------------------'
+            error stop
+        endif
+
+        if (nz >= 100) then
+            write(*,'(a)')    'Value Error ---------------------------------------------'
+            write(*,'(a,i0)') '|   nz must be less than 100, but input is ', nz
             write(*,'(a)')    '---------------------------------------------------------'
             error stop
         endif
